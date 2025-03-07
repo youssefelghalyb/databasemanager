@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::connection('database_manager2')->create('database_connections', function (Blueprint $table) {
+        Schema::connection('database_manager')->create('database_connections', function (Blueprint $table) {
             $table->id();
             $table->string('module_name')->unique();
             $table->string('connection_name');
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::connection('database_manager2')->dropIfExists('database_connections');
+        Schema::connection('database_manager')->dropIfExists('database_connections');
     }
 };

@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::connection('database_manager2')->create('seeders', function (Blueprint $table) {
+        Schema::connection('database_manager')->create('seeders', function (Blueprint $table) {
             $table->id();
             $table->string('module', 255);
             $table->string('seeder_name', 255);
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::connection('database_manager2')->dropIfExists('seeders');
+        Schema::connection('database_manager')->dropIfExists('seeders');
     }
 };
