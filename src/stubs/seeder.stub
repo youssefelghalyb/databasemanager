@@ -1,0 +1,27 @@
+<?php
+
+namespace Modules\{{module}}\Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker;
+
+class {{seederClass}} extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $faker = Faker::create();
+        
+        $data = [];
+        for ($i = 0; $i < {{rows}}; $i++) {
+            $data[] = [
+                {{columns}}
+            ];
+        }
+
+        DB::table('{{table}}')->insert($data);
+    }
+}
