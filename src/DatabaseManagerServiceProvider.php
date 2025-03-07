@@ -12,36 +12,40 @@ class DatabaseManagerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Load and publish configurations
-        $this->mergeConfigFrom(__DIR__.'/../config/databasemanager.php', 'databasemanager');
+        // Load routes
+        $this->loadRoutes();
         
+        // Load views
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'databasemanager');
+        
+        // Load migrations from the current structure
+        $this->loadMigrationsFrom(__DIR__.'/Database/migrations');
+
+        // Publish assets if running in console
         if ($this->app->runningInConsole()) {
+            // Publish config
             $this->publishes([
                 __DIR__.'/../config/databasemanager.php' => config_path('databasemanager.php'),
             ], 'databasemanager-config');
 
+            // Publish views
             $this->publishes([
                 __DIR__.'/../resources/views' => resource_path('views/vendor/databasemanager'),
             ], 'databasemanager-views');
 
+            // Publish migrations based on your structure
             $this->publishes([
-                __DIR__.'/../database/migrations' => database_path('migrations'),
+                __DIR__.'/Database/migrations' => database_path('migrations'),
             ], 'databasemanager-migrations');
-        }
 
-        // Register commands if running in console
-        if ($this->app->runningInConsole()) {
+            // Register commands
             $this->commands([
                 \YoussefElghaly\DatabaseManager\Console\Commands\ModuleMigrationStatus::class,
             ]);
         }
 
-        // Load routes with configurable prefix and middleware
-        $this->loadRoutes();
-        
-        // Load views and migrations
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'databasemanager');
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        // Merge config
+        $this->mergeConfigFrom(__DIR__.'/../config/databasemanager.php', 'databasemanager');
     }
 
     /**
@@ -49,7 +53,7 @@ class DatabaseManagerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Nothing to register here for now
+        // Nothing to register for now
     }
 
     /**
@@ -68,8 +72,8 @@ class DatabaseManagerServiceProvider extends ServiceProvider
     protected function routeConfiguration()
     {
         return [
-            'prefix' => config('databasemanager.routes.prefix'),
-            'middleware' => config('databasemanager.routes.middleware'),
+            'prefix' => config('databasemanager.routes.prefix', 'database-designer'),
+            'middleware' => config('databasemanager.routes.middleware', ['web']),
         ];
     }
 }
