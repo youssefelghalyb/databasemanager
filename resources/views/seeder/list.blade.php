@@ -74,7 +74,7 @@
                 return;
             }
     
-            fetch(`http://localhost/Narzin/public/database-designer/seeder/preview/${moduleName}/${seederName}`)
+             fetch(`{{ env('APP_URL') }}database-designer/seeder/preview/${moduleName}/${seederName}`)
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('seederContent').textContent = data;
@@ -88,7 +88,7 @@
     
         function confirmDelete(seederName, moduleName) {
             if (confirm(`Are you sure you want to delete ${seederName}?`)) {
-                fetch(`http://localhost/Narzin/public/database-designer/seeder/delete/${moduleName}/${seederName}`, {
+                fetch(`{{ env('APP_URL') }}database-designer/seeder/delete/${moduleName}/${seederName}`, {
                     method: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'

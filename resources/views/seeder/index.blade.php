@@ -85,7 +85,7 @@
                 if (!moduleName) return;
 
                 try {
-                    fetch(`http://localhost/Narzin/public/database-designer/seeder/tables/${moduleName}`)
+                  fetch(`{{ env('APP_URL') }}database-designer/seeder/tables/${moduleName}`)
                         .then(response => response.json())
                         .then(data => {
                             let tableSelect = document.getElementById('table');
@@ -122,9 +122,7 @@
                 let tableName = this.value;
                 if (!moduleName || !tableName) return;
 
-                fetch(
-                        `http://localhost/Narzin/public/database-designer/seeder/columns/${moduleName}/${tableName}`
-                    )
+              fetch(`{{ env('APP_URL') }}database-designer/seeder/columns/${moduleName}/${tableName}`)
                     .then(response => response.json())
                     .then(data => {
                         let container = document.getElementById('columns-container');
@@ -201,7 +199,7 @@
             `;
 
             // Then fetch the modules
-            fetch('http://localhost/Narzin/public/database-designer/seeder/modules')
+            fetch(`{{ env('APP_URL') }}database-designer/seeder/modules`)
                 .then(response => response.json())
                 .then(modules => {
                     let moduleSelect = document.querySelector(`.foreign-module[data-column="${column}"]`);
@@ -243,7 +241,7 @@
                         }
 
                         // Fetch tables for the selected module
-                        fetch(`http://localhost/Narzin/public/database-designer/seeder/tables/${selectedModule}`)
+                       fetch(`{{ env('APP_URL') }}database-designer/seeder/tables/${selectedModule}`)
                             .then(response => response.json())
                             .then(tables => {
                                 // Enable the table select
@@ -289,7 +287,7 @@
                                     columnSelect.disabled = true;
                                     
                                     // Fetch columns for the selected table
-                                    fetch(`http://localhost/Narzin/public/database-designer/seeder/columns/${selectedModule}/${selectedTable}`)
+                                    fetch(`{{ env('APP_URL') }}database-designer/seeder/columns/${selectedModule}/${selectedTable}`)
                                         .then(response => response.json())
                                         .then(columns => {
                                             if (typeof columns !== 'object') {
@@ -334,7 +332,7 @@
 
             document.getElementById('preview-seeder').addEventListener('click', function() {
                 let form = new FormData(document.querySelector('form'));
-                fetch('/seeder/preview', {
+               fetch(`{{ env('APP_URL') }}database-designer/seeder/preview`, {
                         method: 'POST',
                         body: form
                     })
