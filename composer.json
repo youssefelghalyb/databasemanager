@@ -1,5 +1,5 @@
 {
-    "name": "youssefElghaly/database-manager",
+    "name": "youssef-elghaly/database-manager",
     "description": "A Laravel package for managing database migrations and seeders for modular applications",
     "type": "library",
     "license": "MIT",
