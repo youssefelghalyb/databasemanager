@@ -142,7 +142,7 @@ class SeederController extends Controller
             }
         }
 
-        $stub = File::get(base_path('package/database-manager/src/stubs/seeder.stub'));
+        $stub = File::get(__DIR__ . '/../../stubs/seeder.stub');
         $stub = str_replace(
             ['{{seederClass}}', '{{table}}', '{{columns}}', '{{rows}}', '{{module}}'],
             [$seederClass, $request->table, trim($columnDefinitions, ",\n"), $request->rows, $request->module],

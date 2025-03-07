@@ -124,7 +124,7 @@ class DatabaseController extends Controller
 
     protected function generateMigrationContent($tableName, $columns, $database , $module)
     {
-        $stub = File::get(base_path('package/database-manager/src/stubs/migration.stub'));
+        $stub = File::get(__DIR__ . '/../../stubs/migration.stub');
         
         // Replace table name and connection
         $stub = str_replace(
