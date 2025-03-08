@@ -1,39 +1,44 @@
 {
-    "name": "youssef-elghaly/database-manager",
-    "description": "A Laravel package for managing database migrations and seeders for modular applications",
+    "name": "modulus/laravel-notification",
+    "description": "A Laravel package for sending notifications via email, SMS, and push notifications",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "Youssef Elghaly",
+            "name": "Yousef Elghalyb",
             "email": "yousef.elghalyb@gmail.com"
         }
     ],
     "require": {
-        "php": "^8.0",
-        "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
-        "illuminate/database": "^8.0|^9.0|^10.0|^11.0",
-        "nwidart/laravel-modules": "^9.0|^10.0|^11.0"
+        "php": "^8.2",
+        "illuminate/support": "^12.0",
+        "illuminate/mail": "^12.0"
+    },
+    "suggest": {
+        "twilio/sdk": "Required for SMS notifications via Twilio (^8.3)",
+        "vonage/client": "Required for SMS notifications via Vonage (^4.1)"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.0|^7.0|^8.0",
-        "phpunit/phpunit": "^9.0|^10.0"
+        "phpunit/phpunit": "^11.0.1"
     },
     "autoload": {
         "psr-4": {
-            "YoussefElghaly\\DatabaseManager\\": "src/"
+            "Modulus\\Notification\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "YoussefElghaly\\DatabaseManager\\Tests\\": "tests/"
+            "Modulus\\Notification\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "YoussefElghaly\\DatabaseManager\\DatabaseManagerServiceProvider"
-            ]
+                "Modulus\\Notification\\Providers\\NotificationServiceProvider"
+            ],
+            "aliases": {
+                "Notification": "Modulus\\Notification\\Facades\\Notification"
+            }
         }
     },
     "minimum-stability": "dev",
