@@ -11,8 +11,8 @@
     ],
     "require": {
         "php": "^8.2",
-        "illuminate/support": "^12.0",
-        "illuminate/mail": "^12.0"
+        "illuminate/support": "^8.0|^9.0|^10.0|^11.0|^12.0",
+        "illuminate/mail": "^8.0|^9.0|^10.0|^11.0|^12.0"
     },
     "suggest": {
         "twilio/sdk": "Required for SMS notifications via Twilio (^8.3)",
