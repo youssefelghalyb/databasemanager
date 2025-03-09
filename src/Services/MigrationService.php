@@ -5,6 +5,7 @@ namespace YoussefElghaly\DatabaseManager\Services;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 use YoussefElghaly\DatabaseManager\Models\DatabaseConnection;
+use YoussefElghaly\DatabaseManager\Console\Commands\ModuleMigrationStatus;
 
 class MigrationService 
 {
@@ -22,20 +23,6 @@ class MigrationService
             if (!$connection) {
                 throw new \Exception("No database connection found for module: $moduleName");
             }
-            
-            // You could dynamically configure the connection here if needed
-            // This is commented out as it's not needed if the connection is already configured in config/database.php
-            /*
-            config(["database.connections.{$connection->connection_name}" => [
-                'driver' => 'mysql',
-                'host' => $connection->host,
-                'database' => $connection->database,
-                'username' => $connection->username,
-                'password' => $connection->password,
-                'charset' => 'utf8mb4',
-                'collation' => 'utf8mb4_unicode_ci',
-            ]]);
-            */
             
             Artisan::call('module:migrate', [
                 'module' => $connection->module_name, 
@@ -86,14 +73,26 @@ class MigrationService
     public static function listMigrationStatus($moduleName, $connection)
     {
         try {
-            Artisan::call('module:migrate-custom-status', [
-                'module' => $moduleName, 
-                '--database' => $connection
-            ]);
+            // Try to use the command directly first
+            try {
+                Artisan::call('module:migrate-custom-status', [
+                    'module' => $moduleName, 
+                    '--database' => $connection
+                ]);
+            } catch (\Symfony\Component\Console\Exception\CommandNotFoundException $e) {
+                // If command not found, manually register and run it
+                $command = new ModuleMigrationStatus();
+                app()['Illuminate\Contracts\Console\Kernel']->registerCommand($command);
+                
+                Artisan::call('module:migrate-custom-status', [
+                    'module' => $moduleName, 
+                    '--database' => $connection
+                ]);
+            }
             
             return Artisan::output();
         } catch (\Exception $e) {
-            Log::error("Status Error for $moduleName: " . $e->getMessage());
+            Log::error("Status Error for $moduleName: " . $e->getMessage() . "\n" . $e->getTraceAsString());
             return "Error: " . $e->getMessage();
         }
     }
